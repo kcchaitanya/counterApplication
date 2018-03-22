@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "406339943053",
+    "firebase_url": "https://counterapp-e4756.firebaseio.com",
+    "project_id": "counterapp-e4756",
+    "storage_bucket": "counterapp-e4756.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:406339943053:android:e22fb05040d1065c",
+        "android_client_info": {
+          "package_name": "com.example.android.courtcounter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "406339943053-556ehlaab04rfmcsh6217hvb94ascjnc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.courtcounter",
+            "certificate_hash": "75eb719c0662dbff19cddf28bed3d37b124365a0"
+          }
+        },
+        {
+          "client_id": "406339943053-0v4t4q6l576pifc3avajk0hi2irm0sab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfncvoV4L3Lxt7PVHDIdyVxqDni4YrLdQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "406339943053-0v4t4q6l576pifc3avajk0hi2irm0sab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

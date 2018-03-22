@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.android.courtcounter.TeamNameActivity"
+     >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Team A Name"
+        android:textSize="20dp"
+        />
+    <EditText
+        android:id="@+id/team_a_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Your Name"
+        android:layout_marginTop="20dp"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Team B Name"
+        android:textSize="20dp"
+        android:layout_marginBottom="20dp"
+        />
+    <EditText
+        android:id="@+id/team_b_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter Your Name"
+        android:textSize="20dp"
+        android:inputType="text"
+        android:layout_marginBottom="20dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Your Sport"
+        android:textSize="20dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangular_drawable"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp">
+        <Spinner
+            android:id="@+id/select_sport"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+/>
+    </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/next"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_marginBottom="20dp"
+        />
+
+</android.support.v7.widget.LinearLayoutCompat>
