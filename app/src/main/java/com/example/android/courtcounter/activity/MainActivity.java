@@ -1,45 +1,76 @@
-package com.example.android.courtcounter;
+package com.example.android.courtcounter.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.android.courtcounter.model.HistoryDetails;
+import com.example.android.courtcounter.utils.Constants;
+import com.example.android.courtcounter.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
+
 import org.json.JSONException;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
-import static com.example.android.courtcounter.Constants.INTENT_KEY_TEAM_NAME_A;
-import static com.example.android.courtcounter.Constants.INTENT_KEY_TEAM_NAME_B;
+
+import static com.example.android.courtcounter.utils.Constants.INTENT_DOCUMENT_ID;
+import static com.example.android.courtcounter.utils.Constants.INTENT_KEY_TEAM_NAME_A;
+import static com.example.android.courtcounter.utils.Constants.INTENT_KEY_TEAM_NAME_B;
+import static com.example.android.courtcounter.utils.Constants.INTENT_KEY_SELECTED_SPORT;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+    private final String MIXPANEL_TOKEN;
+    private final int TEAM_A = 0;
+    private final int TEAM_B = 1;
+    String email;
+    String selectedSport;
+    String TAG = "Scores";
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    Date date = new Date();
+    String game_completed_time = formatter.format(date);
+    String documentId;
+    ProgressDialog progress;
+    String teamOneName;
+    String teamTwoName;
+    Button completeGameButton;
+    Button historyButton;
+    Random rand = new Random();
+    private final String rand_int1 = String.valueOf(rand.nextInt(1000));
     private int scoreTeamA = 0;
     private int scoreTeamB = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
     private MixpanelAPI mixpanel = null;
     private Bundle mBundle;
-
+    private FirebaseAuth mAuth;
 
     {
         mBundle = new Bundle();
     }
-
-    private final String MIXPANEL_TOKEN;
-    private final int TEAM_A = 0;
-    private final int TEAM_B = 1;
-
-    String teamOneName;
-    String teamTwoName;
-    Button completeGameButton;
-    Random rand = new Random();
-    private final String rand_int1 = String.valueOf(rand.nextInt(1000));
 
     public MainActivity() {
         MIXPANEL_TOKEN = "5d864f9b235075e4c5e24c992c9b2196";
@@ -49,15 +80,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final Activity activity = this;
+        activity.setTitle("SCORE CARD");
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
+        initializeViews();
+
+        initializeProgressDialog();
         try {
             initializeMixPanel();
         } catch (JSONException e) {
             e.printStackTrace();
         }
         initializeFirebaseAnalytics();
-        initializeViews();
+        handleNewScore(0, 0);
+        documentId = getIntent().getStringExtra(INTENT_DOCUMENT_ID);
+        selectedSport = getIntent().getStringExtra(INTENT_KEY_SELECTED_SPORT);
 
+    }
+
+    private void initializeProgressDialog() {
+        progress = new ProgressDialog(this);
+        progress.setTitle("Loading");
+        progress.setMessage("Wait while loading...");
+        progress.setCancelable(true); // disable dismiss by tapping outside of the dialog
     }
 
     private void initializeFirebaseAnalytics() {
@@ -79,9 +125,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void initializeViews() {
         teamOneName = getIntent().getStringExtra(INTENT_KEY_TEAM_NAME_A);
         teamTwoName = getIntent().getStringExtra(INTENT_KEY_TEAM_NAME_B);
+        email = mAuth.getCurrentUser().getEmail();
         ((TextView) findViewById(R.id.team_a_name)).setText(teamOneName);
         ((TextView) findViewById(R.id.team_b_name)).setText(teamTwoName);
         completeGameButton = findViewById(R.id.button_complete_game);
+        historyButton = findViewById(R.id.button_history);
         Button signOutButton = findViewById(R.id.button_signOut);
         signOutButton.setOnClickListener(this);
 
@@ -123,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int visibility = (scoreTeamA == 0 && scoreTeamB == 0) ? View.GONE : View.VISIBLE;
         completeGameButton.setVisibility(visibility);
+        historyButton.setVisibility(visibility);
     }
 
     private int getUpdateScore(int score, int team) throws IllegalArgumentException {
@@ -190,47 +239,123 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void completeGame(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Game Result");
+        alertDialogBuilder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        Toast.makeText(getApplicationContext(), "Game Completed", Toast.LENGTH_LONG).show();
+                    }
+                });
 
-        if(scoreTeamA > scoreTeamB){
-            showToast(String.format("%s won the Game", teamOneName));
+        if (scoreTeamA > scoreTeamB) {
+            alertDialogBuilder.setMessage(String.format("Congratulations!! %s won the Game", teamOneName));
+            alertDialogBuilder.show();
+            initializeFireStone();
+
         }
 
-        if (scoreTeamA < scoreTeamB){
-            showToast(String.format("%s won the Game", teamTwoName));
+        if (scoreTeamA < scoreTeamB) {
+            alertDialogBuilder.setMessage(String.format("Congratulations!! %s won the Game", teamTwoName));
+            alertDialogBuilder.show();
+            initializeFireStone();
+
         }
 
-        if(scoreTeamA == scoreTeamB){
-            showToast(String.format("Game Draw"));
+        if (scoreTeamA == scoreTeamB) {
+            alertDialogBuilder.setMessage("Game Draw");
+            alertDialogBuilder.show();
+            initializeFireStone();
         }
     }
 
+    public String result() {
+        if (scoreTeamA > scoreTeamB) {
+                return teamOneName;
+        }
 
-    private void showToast(String message) {
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_LONG).show();
+        if (scoreTeamA < scoreTeamB) {
+            return teamTwoName;
+        }
+        if (scoreTeamA == scoreTeamB) {
+            return "Match Draw";
+        }
+
+        return "Match not completed";
     }
-
-    private void signOut(){
+    private void signOut() {
+        progress.show();
         FirebaseAuth.getInstance().signOut();
         moveToLogInActivity();
+        progress.dismiss();
     }
 
     private void moveToLogInActivity() {
         Intent moveToLogInActivity = new Intent(this, LogInActivity.class);
-
         startActivity(moveToLogInActivity);
-
+        finish();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.button_signOut: {
                 signOut();
+            }
+        }
+    }
+
+
+    public void displayHistory(View view) {
+        switch (view.getId()) {
+            case R.id.button_history: {
+                moveToHistoryActivity();
 
             }
         }
     }
+
+
+    private void initializeFireStone() {
+        DocumentReference userDocumentRef = FirebaseFirestore.getInstance().collection("users").document(email).collection(selectedSport).document();
+        HistoryDetails details = new HistoryDetails();
+        details.setDateTime(game_completed_time);
+        details.setSportsSelected(selectedSport);
+        details.setTeamOneName(teamOneName);
+        details.setTeamTwoName(teamTwoName);
+        details.setTeamOneScore(scoreTeamA);
+        details.setTeamTwoScore(scoreTeamB);
+        details.setMatchWinner(result());
+
+
+        Map<String, Object> user = new HashMap<>();
+
+        userDocumentRef.set(details);
+
+        userDocumentRef.set(user, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    private void moveToHistoryActivity() {
+        Intent moveToHistoryActivity = new Intent(this, HistoryDetailsActivity.class);
+        moveToHistoryActivity.putExtra(Constants.INTENT_KEY_SELECTED_SPORT, selectedSport);
+
+        startActivity(moveToHistoryActivity);
+    }
 }
+
+
 
 

@@ -14,21 +14,24 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_location_permission">Location Permission</string>
+    <string name="text_location_permission">Please allow location permission to access the device location for accurate results</string>
+    <string name="ok">Done</string>
 
-        <string-array name="select_sport">
-            <item>Archery</item>
-            <item>Basket Ball</item>
-            <item>Baseball</item>
-            <item>badminton</item>
-            <item>Boxing</item>
-            <item>Bowling</item>
-            <item>Cricket</item>
-            <item>Carroms</item>
-            <item>golf</item>
-            <item>shooting</item>
-            <item>Tennis</item>
-            <item>Table Tennis</item>
+    <string-array name="select_sport">
+        <item>Archery</item>
+        <item>Basket Ball</item>
+        <item>Baseball</item>
+        <item>badminton</item>
+        <item>Boxing</item>
+        <item>Bowling</item>
+        <item>Cricket</item>
+        <item>Carroms</item>
+        <item>golf</item>
+        <item>shooting</item>
+        <item>Tennis</item>
+        <item>Table Tennis</item>
 
-        </string-array>
+    </string-array>
 </resources>
 
