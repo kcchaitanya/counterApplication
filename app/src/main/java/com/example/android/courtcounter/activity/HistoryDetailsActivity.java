@@ -41,7 +41,7 @@ public class HistoryDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_history_details);
 
         mAuth = FirebaseAuth.getInstance();
-        mHistoryList = (RecyclerView) findViewById(R.id.history_list);
+        mHistoryList = findViewById(R.id.history_list);
         final Activity activity = this;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

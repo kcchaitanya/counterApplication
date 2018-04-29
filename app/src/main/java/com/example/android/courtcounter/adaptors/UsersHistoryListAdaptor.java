@@ -76,14 +76,14 @@ public class UsersHistoryListAdaptor extends RecyclerView.Adapter<UsersHistoryLi
         public ViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            matchDetails = (TextView) mView.findViewById(R.id.match_details);
-            sportSelected = (TextView) mView.findViewById(R.id.history_sport_Selected);
-            dateTime = (TextView) mView.findViewById(R.id.history_dateTime);
-            teamOneScore = (TextView) mView.findViewById(R.id.history_teamOneScore);
-            teamTwoScore = (TextView) mView.findViewById(R.id.history_teamTwoScore);
-            teamOneName = (TextView) mView.findViewById(R.id.history_teamOneName);
-            teamTwoName = (TextView) mView.findViewById(R.id.history_teamTwoName);
-            matchWinner = (TextView) mView.findViewById(R.id.history_matchWinner);
+            matchDetails = mView.findViewById(R.id.match_details);
+            sportSelected = mView.findViewById(R.id.history_sport_Selected);
+            dateTime = mView.findViewById(R.id.history_dateTime);
+            teamOneScore = mView.findViewById(R.id.history_teamOneScore);
+            teamTwoScore = mView.findViewById(R.id.history_teamTwoScore);
+            teamOneName = mView.findViewById(R.id.history_teamOneName);
+            teamTwoName = mView.findViewById(R.id.history_teamTwoName);
+            matchWinner = mView.findViewById(R.id.history_matchWinner);
 
 
         }

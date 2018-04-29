@@ -16,6 +16,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     Date date = new Date();
     String created_time = formatter.format(date);
+    boolean acceptTermsValue;
 
 
 
@@ -127,6 +129,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.put("email_id", email);
         user.put("user_name", name);
         user.put("created_date_time", created_time);
+        user.put("is_terms_checked", acceptTermsValue);
         userDocumentRef.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -222,5 +225,11 @@ public class SignUpActivity extends AppCompatActivity {
                     }
         }
         return false;
+    }
+
+    public void checkTerms(View view){
+        CheckBox acceptTermsCheckBox = (CheckBox) findViewById(R.id.acceptTerms);
+        acceptTermsValue = acceptTermsCheckBox.isChecked();
+        Log.e("acceptValue", String.valueOf(acceptTermsValue));
     }
 }

@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
@@ -19,12 +18,13 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.android.courtcounter.utils.Constants;
 import com.example.android.courtcounter.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,7 +34,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import android.Manifest;
 
 
@@ -48,6 +47,8 @@ public class LogInActivity extends AppCompatActivity {
     ProgressDialog progress;
     private FusedLocationProviderClient mFusedLocationClient;
     private final int MY_PERMISSIONS_REQUEST_LOCATION = 0;
+
+
 
 
     @Override
@@ -67,7 +68,6 @@ public class LogInActivity extends AppCompatActivity {
             moveToTeamNameActivity();
             return;
         }
-        getLocation();
 
         initializeView();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -128,13 +128,13 @@ public class LogInActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Sorry,no internet connectivity", 1).show();
             }
         });
+
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 moveToSignUpActivity();
             }
         });
-
     }
 
     private boolean validateLogInDetails() {
@@ -271,7 +271,6 @@ public class LogInActivity extends AppCompatActivity {
                 .show();
 
     }
+
+
 }
-
-
-

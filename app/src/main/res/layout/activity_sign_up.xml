@@ -83,25 +83,26 @@
         android:textColor="@color/white"
         android:fontFamily="@font/roboto_slab"/>
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:fontFamily="@font/roboto_slab"/>
+    <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/roboto_slab"
+        android:textStyle="italic"
+        android:layout_marginTop="10dp"
+        android:text="Accept the terms and conditions"
+        android:id="@+id/acceptTerms"
+        android:onClick="checkTerms"/>
+
 
     <TextView
         android:id="@+id/link_login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
         android:gravity="center"
+        android:layout_marginTop="10dp"
         android:text="Already a member? Login"
         android:textSize="16dip"
         android:fontFamily="@font/roboto_slab"/>
-
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
 </LinearLayout>
