@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int scoreTeamA = 0;
     private int scoreTeamB = 0;
     private FirebaseAnalytics mFirebaseAnalytics;
-    private MixpanelAPI mixpanel = null;
     private Bundle mBundle;
     private FirebaseAuth mAuth;
 
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public MainActivity() {
-        MIXPANEL_TOKEN = "5d864f9b235075e4c5e24c992c9b2196";
     }
 
 
@@ -113,8 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initializeMixPanel() throws JSONException {
-        mixpanel =
-                MixpanelAPI.getInstance(this, MIXPANEL_TOKEN);
+
         mixpanel.identify(rand_int1);
         mixpanel.getPeople().identify(rand_int1);
         mixpanel.getPeople().append("name", "Hyderabad");
