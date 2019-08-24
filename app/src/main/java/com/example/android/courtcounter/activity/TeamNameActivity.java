@@ -79,7 +79,6 @@ public class TeamNameActivity extends AppCompatActivity {
                 if (teamNamesAreValid()) {
                     progress.show();
                     initializeFireStone();
-
                 }
             }
         });
@@ -120,7 +119,12 @@ public class TeamNameActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentReference documentReference) {
                 documentId =  documentReference.getId();
-                moveToMainActivity();
+                if (selectedSport.equals("Cricket")) {
+                    movetoCricketActivity();
+                }
+                else {
+                    moveToMainActivity();
+                }
                 progress.dismiss();
                 Log.d(TAG, "DocumentSnapshot added with ID: " + documentId);
             }
@@ -134,6 +138,19 @@ public class TeamNameActivity extends AppCompatActivity {
                 });
 
     }
+
+    private void movetoCricketActivity() {
+
+        Intent movetoCricketActivity = new Intent(this, CricketActivity.class);
+        movetoCricketActivity.putExtra(Constants.INTENT_KEY_TEAM_NAME_A, teamOneName);
+        movetoCricketActivity.putExtra(Constants.INTENT_KEY_TEAM_NAME_B, teamTwoName);
+        movetoCricketActivity.putExtra(Constants.INTENT_KEY_SELECTED_SPORT, selectedSport);
+        movetoCricketActivity.putExtra(Constants.INTENT_DOCUMENT_ID, documentId);
+
+        startActivity(movetoCricketActivity);
+        finish();
+    }
+
     private boolean teamNamesAreValid() {
         teamOneName = teamOneNameEditTextView.getText().toString();
         teamTwoName = teamTwoNameEditTextView.getText().toString();

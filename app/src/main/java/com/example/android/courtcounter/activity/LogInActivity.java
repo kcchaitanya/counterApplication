@@ -20,11 +20,14 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.crashlytics.android.Crashlytics;
 import com.example.android.courtcounter.utils.Constants;
 import com.example.android.courtcounter.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -61,18 +64,35 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         mAuth = FirebaseAuth.getInstance();
 
-
+        forceACrash();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             System.out.println("currentUser" + currentUser.toString());
             moveToTeamNameActivity();
             return;
+
         }
 
         initializeView();
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
 
+    }
+
+    public void forceACrash() {
+        // [START crash_force_crash]
+        Button crashButton = new Button(this);
+        crashButton.setText("Crash!");
+        crashButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Crashlytics.getInstance().crash(); // Force a crash
+            }
+        });
+
+        addContentView(crashButton, new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        // [END crash_force_crash]
     }
 
     @Override
@@ -271,6 +291,7 @@ public class LogInActivity extends AppCompatActivity {
                 .show();
 
     }
+
 
 
 }

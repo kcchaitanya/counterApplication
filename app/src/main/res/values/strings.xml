@@ -33,5 +33,6 @@
         <item>Table Tennis</item>
 
     </string-array>
+    <string name="title_activity_cricket">CricketActivity</string>
 </resources>
 

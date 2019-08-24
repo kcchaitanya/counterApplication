@@ -11,12 +11,12 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class SplashScreenActivityTest2 {
+public class LoginTest {
 
     @Rule
     public ActivityTestRule<SplashScreenActivity> mActivityTestRule = new ActivityTestRule<>(SplashScreenActivity.class);
 
     @Test
-    public void splashScreenActivityTest2() {
+    public void loginTest() {
     }
 }

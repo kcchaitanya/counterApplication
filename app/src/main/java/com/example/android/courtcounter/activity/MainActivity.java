@@ -44,7 +44,7 @@ import static com.example.android.courtcounter.utils.Constants.INTENT_KEY_SELECT
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private final String MIXPANEL_TOKEN;
+    //private final String MIXPANEL_TOKEN;
     private final int TEAM_A = 0;
     private final int TEAM_B = 1;
     String email;
@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initializeMixPanel() throws JSONException {
 
-        mixpanel.identify(rand_int1);
-        mixpanel.getPeople().identify(rand_int1);
-        mixpanel.getPeople().append("name", "Hyderabad");
+       // mixpanel.identify(rand_int1);
+        //mixpanel.getPeople().identify(rand_int1);
+        //mixpanel.getPeople().append("name", "Hyderabad");
 
     }
 
@@ -163,8 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void handleNewScore(int score, int team) {
         updateScoreBoard(getUpdateScore(score, team), team);
-        mixPanelTrack(mixPanelMessageBuilder(score, team));
-        mixpanel.timeEvent("Updated Score");
+        //mixPanelTrack(mixPanelMessageBuilder(score, team));
+       // mixpanel.timeEvent("Updated Score");
 
         int visibility = (scoreTeamA == 0 && scoreTeamB == 0) ? View.GONE : View.VISIBLE;
         completeGameButton.setVisibility(visibility);
@@ -211,22 +211,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void displayForTeamA(int scoreTeamA) {
         TextView scoreView = findViewById(R.id.team_a_score);
         scoreView.setText(String.valueOf(scoreTeamA));
-        mixPanelTrack(teamOneName);
-        mixpanel.timeEvent(teamOneName);
+      //  mixPanelTrack(teamOneName);
+      //  mixpanel.timeEvent(teamOneName);
         mFirebaseAnalytics.logEvent("TeamA", mBundle);
     }
 
     public void displayForTeamB(int scoreTeamB) {
         TextView scoreView = findViewById(R.id.team_b_score);
         scoreView.setText(String.valueOf(scoreTeamB));
-        mixPanelTrack(teamTwoName);
-        mixpanel.timeEvent(teamTwoName);
+      //  mixPanelTrack(teamTwoName);
+      //  mixpanel.timeEvent(teamTwoName);
 
     }
 
-    private void mixPanelTrack(String message) {
-        mixpanel.track(message);
-    }
+ //   private void mixPanelTrack(String message) {
+      //  mixpanel.track(message);
+    //}
+
 
     public void resetScore(View view) {
         scoreTeamB = 0;

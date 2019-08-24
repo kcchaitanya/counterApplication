@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "406339943053-ak85gt562ud854o8ov685fnjcakjua71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.courtcounter",
+            "certificate_hash": "0920c0c3e6217181c22b9e1977fe477d0359c53d"
+          }
+        },
+        {
           "client_id": "406339943053-556ehlaab04rfmcsh6217hvb94ascjnc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -23,7 +31,7 @@
           }
         },
         {
-          "client_id": "406339943053-0v4t4q6l576pifc3avajk0hi2irm0sab.apps.googleusercontent.com",
+          "client_id": "406339943053-hpprc5atcg60sqrlmp1hg98va3f0s926.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -33,20 +41,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "406339943053-0v4t4q6l576pifc3avajk0hi2irm0sab.apps.googleusercontent.com",
+              "client_id": "406339943053-hpprc5atcg60sqrlmp1hg98va3f0s926.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }
